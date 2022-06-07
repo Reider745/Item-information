@@ -1,0 +1,5 @@
+{
+    "enabled":true,
+    "tool_tip":"§r§7Number id - {id}\nText id - {strId}\n§9{mod}§r",
+    "tool_tip_fuel":"§r§7Fuel burn duration - {time}§r"
+}

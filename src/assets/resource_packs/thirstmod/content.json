@@ -1,0 +1,16 @@
+{
+    "content": [
+        {
+            "path": "manifest.json"
+        },
+        {
+            "path": "textures/ui/scale_water_full.png"
+        },
+        {
+            "path": "textures/ui/scale_water_helf.png"
+        },
+        {
+            "path": "textures/ui/scale_water_empty.png"
+        }
+    ]
+}

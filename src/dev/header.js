@@ -5,75 +5,118 @@ var ToolTip = WRAP_JAVA("com.reider.ToolTip");
 var items = {};
 var blocks = {};
 
+var _mod = null;
+
 Patched.patchedToObject(Item, "createItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Item, "createFoodItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Item, "createArmorItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Item, "createThrowableItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Item, "createArmorItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Block, "createBlock", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         blocks[controller.getArguments()[0]] = mod;
+    else 
+        blocks[controller.getArguments()[0]] = _mod;
 }, Flags.BEFORE);
+
 Patched.patchedToObject(Block, "createBlockWithRotation", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         blocks[controller.getArguments()[0]] = mod;
+    else 
+        blocks[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(ItemRegistry, "registerItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0].stringID] = mod;
+    else 
+        items[controller.getArguments()[0].stringID] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(ItemRegistry, "createItem", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(ItemRegistry, "createFood", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(ItemRegistry, "createArmor", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(ItemRegistry, "createTool", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         items[controller.getArguments()[0]] = mod;
+    else 
+        items[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(BlockRegistry, "registerBlock", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         blocks[controller.getArguments()[0].stringID] = mod;
+    else 
+        blocks[controller.getArguments()[0].stringID] = _mod;
 }, Flags.AFTER);
+
 Patched.patchedToObject(BlockRegistry, "createBlock", function (controller) {
     var mod = controller.getContextValue("__name__");
-    if (mod instanceof java.lang.String)
+    if (_mod === null && mod instanceof java.lang.String)
         blocks[controller.getArguments()[0]] = mod;
+    else 
+        blocks[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
 
 var tool_tip = __config__.get("tool_tip") || "§r§7Number id - {id}\nText id - {strId}\n§9{mod}§r";
@@ -83,8 +126,15 @@ var ItemInformation = {
     handlers: [],
     addHandler: function (obj) {
         this.handlers.push(obj);
+    },
+    startModLoad(name){
+        _mod = name;
+    },
+    endModLoad(){
+        _mod = null;
     }
 };
+//ItemInformation.startModLoad("WopaArtema");
 ItemInformation.addHandler({
     addToolTip: function (tip, id, stringID, mod, items) {
         var time = Recipes.getFuelBurnDuration(id, 0);

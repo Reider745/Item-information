@@ -1,9 +1,11 @@
 IMPORT("BlockEngine");
 IMPORT("Patched");
 
-var ToolTip = WRAP_JAVA("com.reider.ToolTip");
 var items = {};
 var blocks = {};
+
+var tool_tip = __config__.get("tool_tip") || "§r§7Number id - {id}\nText id - {strId}\n§9{mod}§r";
+var tool_tip_fuel = __config__.get("tool_tip_fuel") || "§r§7Fuel burn duration - {time}§r";
 
 var _mod = null;
 
@@ -119,9 +121,6 @@ Patched.patchedToObject(BlockRegistry, "createBlock", function (controller) {
         blocks[controller.getArguments()[0]] = _mod;
 }, Flags.AFTER);
 
-var tool_tip = __config__.get("tool_tip") || "§r§7Number id - {id}\nText id - {strId}\n§9{mod}§r";
-var tool_tip_fuel = __config__.get("tool_tip_fuel") || "§r§7Fuel burn duration - {time}§r";
-
 var ItemInformation = {
     handlers: [],
     addHandler: function (obj) {
@@ -134,7 +133,6 @@ var ItemInformation = {
         _mod = null;
     }
 };
-//ItemInformation.startModLoad("WopaArtema");
 ItemInformation.addHandler({
     addToolTip: function (tip, id, stringID, mod, items) {
         var time = Recipes.getFuelBurnDuration(id, 0);
@@ -164,26 +162,31 @@ function register(obj, types) {
         var name = "";
         var mod = String(types[key] || "minecraft");
         mod = mod[0].toUpperCase() + mod.substring(1);
-        for (var i_1 in ItemInformation.handlers)
-            name = ItemInformation.handlers[i_1].addToolTip(name, id, key, mod, obj) + (ItemInformation.handlers.length > 1 && ItemInformation.handlers.length - 1 != i_1 ? "\n" : "");
+        for (var i_1 in ItemInformation.handlers){
+            let obj =  ItemInformation.handlers[i_1];
+            if(obj.addDynamicPre)
+                ToolTip.addDynamicPre(id, -1, obj.addDynamicPre);
+            if(obj.addDynamicPost)
+                ToolTip.addDynamicPre(id, -1, obj.addDynamicPost);
+            let res = obj.addToolTip(name, id, key, mod, obj) 
+            name = (ItemInformation.handlers.length > 1 && ItemInformation.handlers.length - 1 != i_1 && (obj.is === undefined|| obj.is())? "\n" : "") + res;
+        }
         ToolTip.addToolTip(id, -1, name);
     }
 }
 
-Callback.addCallback("ModsLoaded", function () {
-    Callback.addCallback("LocalLevelLoaded", function () {
-        ToolTip.clearToolTips();
-        register(ItemID, items);
-        register(BlockID, blocks);
-        register(VanillaItemID, {});
-        register(VanillaBlockID, {});
-    });
+Callback.addCallback("PreLoaded", function () {
+    register(ItemID, items);
+    register(BlockID, blocks);
+    register(VanillaItemID, {});
+    register(VanillaBlockID, {});
 });
 
 ModAPI.registerAPI("ItemInformation", {
     items: items,
     blocks: blocks,
     ItemInformation: ItemInformation,
+    ToolTip: ToolTip,
     requireGlobal: function (cmd) {
         return eval(cmd);
     }

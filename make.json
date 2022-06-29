@@ -3,7 +3,7 @@
 		"info": {
 			"name":"Item information",
 			"author":"Reider ___",
-			"version": "release 1.6",
+			"version": "release 1.7",
 			"icon": "src/mod_icon.png",
 			"description": "Item information - мод добавит дополнительную информацию о предмете: числовое, текстовое id и добавит отбражение из каково мода предмет."
 		},
@@ -49,10 +49,6 @@
 		}
 	],
 	"compile": [
-		{
-			"source": "src/native/",
-			"type": "native"
-		},
 		{
 			"source": "src/java/*",
 			"type": "java"

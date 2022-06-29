@@ -175,7 +175,7 @@ function register(obj, types) {
     }
 }
 
-Callback.addCallback("PreLoaded", function () {
+Callback.addCallback("PostLoaded", function () {
     register(ItemID, items);
     register(BlockID, blocks);
     register(VanillaItemID, {});

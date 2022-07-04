@@ -153,7 +153,6 @@ ItemInformation.addHandler({
         return name;
     }
 });
-
 function register(obj, types) {
     var keys = Object.keys(obj);
     for (var i in keys) {
@@ -167,14 +166,13 @@ function register(obj, types) {
             if(obj.addDynamicPre)
                 ToolTip.addDynamicPre(id, -1, obj.addDynamicPre);
             if(obj.addDynamicPost)
-                ToolTip.addDynamicPre(id, -1, obj.addDynamicPost);
+                ToolTip.addDynamicPost(id, -1, obj.addDynamicPost);
             let res = obj.addToolTip(name, id, key, mod, obj) 
             name = (ItemInformation.handlers.length > 1 && ItemInformation.handlers.length - 1 != i_1 && (obj.is === undefined|| obj.is())? "\n" : "") + res;
         }
         ToolTip.addToolTip(id, -1, name);
     }
 }
-
 Callback.addCallback("PostLoaded", function () {
     register(ItemID, items);
     register(BlockID, blocks);

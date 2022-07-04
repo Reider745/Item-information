@@ -1,5 +1,5 @@
 .vscode/.ropeproject
-toolchain
+toolchain/
 output
 !.idea/runConfigurations
 **/__pycache__

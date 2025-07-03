@@ -1,62 +1,45 @@
 {
-	"global": {
-		"info": {
-			"name":"Item information",
-			"author":"Reider ___",
-			"version": "release 1.7",
-			"icon": "src/mod_icon.png",
-			"description": "Item information - мод добавит дополнительную информацию о предмете: числовое, текстовое id и добавит отбражение из каково мода предмет."
-		},
-		"api": "CoreEngine"
-	},
-	"make": {
-		"debugAbi": "armeabi-v7a",
-		"abis": [
-			"armeabi-v7a",
-			"x86"
-		],
-		"linkNative": [
-			"minecraftpe",
-			"innercore",
-			"nativejs"
-		],
-		"excludeFromRelease": [],
-		"pushTo": "storage/emulated/0/games/horizon/packs/innercore-test-b113-performance-beta-v2/innercore/mods/ItemInformation",
-		"ndkPath": "D:\\visual-studio-code\\ndk"
+	"$schema": "https://raw.githubusercontent.com/zheka2304/innercore-mod-toolchain/develop/toolchain/schemas/make.schema.json",
+	"info": {
+		"name":"Item information",
+		"author":"Reider ___",
+		"version": "release 1.7",
+		"icon": "src/mod_icon.png",
+		"description": "Item information - мод добавит дополнительную информацию о предмете: числовое, текстовое id и добавит отбражение из каково мода предмет.",
+		"clientOnly": true
 	},
 	"resources": [],
 	"sources": [
 		{
-			"source": "src/dev",
+			"source": "dev",
 			"target": "main.js",
 			"type": "main",
-			"language": "javascript"
+			"language": "typescript"
 		},
 		{
-			"source": "src/launcher.js",
+			"source": "launcher.js",
 			"type": "launcher",
 			"language": "javascript"
 		},
 		{
-			"source": "src/lib/*",
-			"type": "library",
-			"language": "javascript"
-		},
-		{
-			"source": "src/preloader.js",
-			"type": "preloader",
-			"language": "javascript"
-		}
+            "source": "lib/*",
+            "type": "library",
+            "language": "javascript"
+        }
 	],
 	"compile": [
 		{
-			"source": "src/java/*",
+			"source": "java/patched",
 			"type": "java"
 		}
 	],
 	"additional": [
 		{
-			"source": "src/config.json",
+			"source": "config.json",
+			"targetDir": "."
+		},
+		{
+			"source": "dependency-config.json",
 			"targetDir": "."
 		}
 	]

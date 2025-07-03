@@ -1,6 +1,17 @@
 IMPORT("BlockEngine");
 IMPORT("Patched");
 
+function addToolTip(id, tooltip) {
+    const override = Item.nameOverrideFunctions[id];
+    Item.registerNameOverrideFunction(id, (item, name) => {
+        let orgName = name;
+
+        if(override) orgName = override.apply(this, arguments);
+
+        return orgName + "\n" + tooltip;
+    });
+}
+
 var items = {};
 var blocks = {};
 
@@ -163,14 +174,14 @@ function register(obj, types) {
         mod = mod[0].toUpperCase() + mod.substring(1);
         for (var i_1 in ItemInformation.handlers){
             let obj =  ItemInformation.handlers[i_1];
-            if(obj.addDynamicPre)
+            /*if(obj.addDynamicPre)
                 ToolTip.addDynamicPre(id, -1, obj.addDynamicPre);
             if(obj.addDynamicPost)
-                ToolTip.addDynamicPost(id, -1, obj.addDynamicPost);
+                ToolTip.addDynamicPost(id, -1, obj.addDynamicPost);*/
             let res = obj.addToolTip(name, id, key, mod, obj) 
             name = (ItemInformation.handlers.length > 1 && ItemInformation.handlers.length - 1 != i_1 && (obj.is === undefined|| obj.is())? "\n" : "") + res;
         }
-        ToolTip.addToolTip(id, -1, name);
+        addToolTip(id, name);
     }
 }
 Callback.addCallback("PostLoaded", function () {
@@ -184,7 +195,6 @@ ModAPI.registerAPI("ItemInformation", {
     items: items,
     blocks: blocks,
     ItemInformation: ItemInformation,
-    ToolTip: ToolTip,
     requireGlobal: function (cmd) {
         return eval(cmd);
     }
